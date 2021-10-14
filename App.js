@@ -4,6 +4,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import LandingScreen from "./components/auth/Landing";
+import LoginScreen from "./components/auth/login";
 import RegisterScreen from "./components/auth/Register";
 import firebase from "firebase/app";
 import "firebase/auth";
@@ -12,6 +13,8 @@ import { createStore, applyMiddleware } from "redux";
 import rootReducer from "./redux/Reducer";
 import thunk from "redux-thunk";
 import MainScreen from "./components/Main";
+import AddScreen from "./components/main/Add";
+import SaveScreen from "./components/main/save";
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 const Stack = createStackNavigator();
@@ -32,7 +35,7 @@ if (firebase.apps.length === 0) {
 
 export class App extends Component {
   constructor(props) {
-    super(props);
+    super();
     this.state = {
       loaded: false,
     };
@@ -58,21 +61,53 @@ export class App extends Component {
       );
     }
 
-    if (!loggedIn) {
-      <NavigationContainer>
-        <Stack.Navigator initialRoutename="Landing">
-          <Stack.Screen
-            name="Landing"
-            component={LandingScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen name="Register" component={RegisterScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>;
-    }
+    // if (!loggedIn) {
+    //   <NavigationContainer>
+    //     <Stack.Navigator initialRoutename="Landing">
+    //       <Stack.Screen
+    //         name="Landing"
+    //         component={LandingScreen}
+    //         options={{ headerShown: false }}
+    //       />
+    //       <Stack.Screen name="Register" component={RegisterScreen} />
+    //     </Stack.Navigator>
+    //   </NavigationContainer>;
+    // }
     return (
       <Provider store={store}>
-        <MainScreen />
+        {loggedIn ? (
+          <NavigationContainer>
+            <Stack.Navigator initialRoutename="Main">
+              <Stack.Screen
+                name="Main"
+                component={MainScreen}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="Add"
+                component={AddScreen}
+                navigation={this.props.navigation}
+              />
+              <Stack.Screen
+                name="Save"
+                component={SaveScreen}
+                navigation={this.props.navigation}
+              />
+            </Stack.Navigator>
+          </NavigationContainer>
+        ) : (
+          <NavigationContainer>
+            <Stack.Navigator initialRoutename="Landing">
+              <Stack.Screen
+                name="Landing"
+                component={LandingScreen}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen name="Register" component={RegisterScreen} />
+              <Stack.Screen name="Login" component={LoginScreen} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        )}
       </Provider>
     );
   }
