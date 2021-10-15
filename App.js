@@ -75,7 +75,7 @@ export class App extends Component {
     // }
     return (
       <Provider store={store}>
-        {loggedIn ? (
+        {loggedIn == true ? (
           <NavigationContainer>
             <Stack.Navigator initialRoutename="Main">
               <Stack.Screen
