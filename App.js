@@ -81,7 +81,7 @@ export class App extends Component {
               <Stack.Screen
                 name="Main"
                 component={MainScreen}
-                options={{ headerShown: false }}
+               
               />
               <Stack.Screen
                 name="Add"
@@ -93,6 +93,7 @@ export class App extends Component {
                 component={SaveScreen}
                 navigation={this.props.navigation}
               />
+
             </Stack.Navigator>
           </NavigationContainer>
         ) : (
@@ -101,7 +102,7 @@ export class App extends Component {
               <Stack.Screen
                 name="Landing"
                 component={LandingScreen}
-                options={{ headerShown: false }}
+               
               />
               <Stack.Screen name="Register" component={RegisterScreen} />
               <Stack.Screen name="Login" component={LoginScreen} />
